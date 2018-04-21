@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppContainer Test Correctly rendered 1`] = `
+<div
+  id="app"
+>
+  <Board />
+</div>
+`;

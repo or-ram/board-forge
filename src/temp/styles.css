@@ -1,0 +1,50 @@
+body {
+  display: flex;
+  margin: 0;
+  background-color: papayawhip; }
+
+#app {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.board {
+  display: flex;
+  border: solid 1px black;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  width: 640px; }
+
+.field {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  height: 80px;
+  width: 80px; }
+  .field:hover {
+    outline-color: darkgray;
+    outline-style: solid;
+    outline-width: 4px;
+    outline-offset: -5px; }
+  .field.field-dark {
+    background-color: darkgoldenrod; }
+  .field.field-light {
+    background-color: papayawhip; }
+  .field.field-moveable {
+    outline-color: darkgreen;
+    outline-style: solid;
+    outline-width: 2px;
+    outline-offset: -3px; }
+    .field.field-moveable:hover {
+      outline-color: green;
+      outline-style: solid;
+      outline-width: 4px;
+      outline-offset: -5px; }
+
+.man {
+  height: 70px;
+  width: 70px; }
