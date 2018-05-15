@@ -192,6 +192,50 @@ describe('Board Test', () => {
 
     expect(wrapper.find({ crowned: true })).toMatchSnapshot();
     expect(wrapper.find({ crowned: true }).length).toEqual(1);
+  });
+
+  test('queen valid moves', () => {
+    const wrapper = mount(<Board />);
+
+    wrapper.find({ col: 2, row: 5 }).simulate('click');
+    wrapper.find({ col: 3, row: 4 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 2 }).simulate('click');
+    wrapper.find({ col: 4, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 3, row: 4 }).simulate('click');
+    wrapper.find({ col: 5, row: 2 }).simulate('click');
+
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 6, row: 5 }).simulate('click');
+    wrapper.find({ col: 7, row: 4 }).simulate('click');
+
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 6 }).simulate('click');
+    wrapper.find({ col: 6, row: 5 }).simulate('click');
+
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+    wrapper.find({ col: 1, row: 4 }).simulate('click');
+
+    wrapper.find({ col: 0, row: 5 }).simulate('click');
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 0 }).simulate('click');
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 2 }).simulate('click');
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+    wrapper.find({ col: 5, row: 0 }).simulate('click');
 
     wrapper.find({ col: 1, row: 2 }).simulate('click');
     wrapper.find({ col: 0, row: 3 }).simulate('click');
@@ -199,5 +243,112 @@ describe('Board Test', () => {
     wrapper.find({ col: 5, row: 0 }).simulate('click');
 
     expect(wrapper.find('.field-moveable').length).toEqual(3);
+  });
+
+  test('queen movement', () => {
+    const wrapper = mount(<Board />);
+
+    wrapper.find({ col: 2, row: 5 }).simulate('click');
+    wrapper.find({ col: 3, row: 4 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 2 }).simulate('click');
+    wrapper.find({ col: 4, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 3, row: 4 }).simulate('click');
+    wrapper.find({ col: 5, row: 2 }).simulate('click');
+
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 6, row: 5 }).simulate('click');
+    wrapper.find({ col: 7, row: 4 }).simulate('click');
+
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 6 }).simulate('click');
+    wrapper.find({ col: 6, row: 5 }).simulate('click');
+
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+    wrapper.find({ col: 1, row: 4 }).simulate('click');
+
+    wrapper.find({ col: 0, row: 5 }).simulate('click');
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 0 }).simulate('click');
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 2 }).simulate('click');
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+    wrapper.find({ col: 5, row: 0 }).simulate('click');
+
+    wrapper.find({ col: 1, row: 2 }).simulate('click');
+    wrapper.find({ col: 0, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 0 }).simulate('click');
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+
+    expect(wrapper.find({ col: 3, row: 2 }).find('svg').length).toEqual(1);
+    expect(wrapper.find('.field-moveable').length).toEqual(0);
+  });
+
+  test('queen jump', () => {
+    const wrapper = mount(<Board />);
+
+    wrapper.find({ col: 2, row: 5 }).simulate('click');
+    wrapper.find({ col: 3, row: 4 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 2 }).simulate('click');
+    wrapper.find({ col: 4, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 3, row: 4 }).simulate('click');
+    wrapper.find({ col: 5, row: 2 }).simulate('click');
+
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 6, row: 5 }).simulate('click');
+    wrapper.find({ col: 7, row: 4 }).simulate('click');
+
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 6 }).simulate('click');
+    wrapper.find({ col: 6, row: 5 }).simulate('click');
+
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+    wrapper.find({ col: 1, row: 4 }).simulate('click');
+
+    wrapper.find({ col: 0, row: 5 }).simulate('click');
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 0 }).simulate('click');
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 2 }).simulate('click');
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+
+    wrapper.find({ col: 3, row: 2 }).simulate('click');
+    wrapper.find({ col: 2, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 4, row: 1 }).simulate('click');
+    wrapper.find({ col: 5, row: 0 }).simulate('click');
+
+    wrapper.find({ col: 1, row: 2 }).simulate('click');
+    wrapper.find({ col: 0, row: 3 }).simulate('click');
+
+    wrapper.find({ col: 5, row: 0 }).simulate('click');
+    wrapper.find({ col: 1, row: 4 }).simulate('click');
+
+    expect(wrapper.find({ col: 1, row: 4 }).find('svg').length).toEqual(1);
+    expect(wrapper.find({ col: 2, row: 3 }).find('svg').length).toEqual(0);
+    expect(wrapper.find('.field-moveable').length).toEqual(0);
   });
 });

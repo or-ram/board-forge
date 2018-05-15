@@ -9,9 +9,12 @@ const COLS = 8;
 export default class Board extends Component {
   state = {
     fields: [],
-    chosenField: null,
+    selectedField: null,
     lastType: '',
   };
+
+  _newFields = [];
+  _selectedField = null;
 
   componentWillMount () {
     const fields = [];
@@ -21,7 +24,7 @@ export default class Board extends Component {
         fields.push({
           key: (row * ROWS) + col,
           row, col,
-          man: Field.isFieldDark({ row, col }) ? this._prepareMan(row) : null,
+          stone: Field.isFieldDark({ row, col }) ? this._prepareStone(row) : null,
           moveable: false,
           direction: '',
         });
@@ -40,7 +43,7 @@ export default class Board extends Component {
   }
 
   _renderField (field) {
-    const { key, row, col, man, moveable } = field;
+    const { key, row, col, stone, moveable } = field;
 
     return (
       <Field
@@ -50,14 +53,14 @@ export default class Board extends Component {
         moveable={moveable}
         onFieldClick={this._handleFieldClick(field)}
       >
-        {Field.isFieldDark({ row, col }) && this._renderMan(man)}
+        {Field.isFieldDark({ row, col }) && this._renderStone(stone)}
       </Field>
     );
   }
 
-  _renderMan (man) {
-    if (man) {
-      const { type, crowned } = man;
+  _renderStone (stone) {
+    if (stone) {
+      const { type, crowned } = stone;
 
       if (type === 'dark') {
         return <Dark crowned={crowned} />;
@@ -70,7 +73,7 @@ export default class Board extends Component {
     return null;
   }
 
-  _prepareMan (row) {
+  _prepareStone (row) {
     if (Math.floor(row + 1) < Math.floor(ROWS / 2)) {
       return { type: 'dark', crowned: false };
     }
@@ -83,170 +86,165 @@ export default class Board extends Component {
   }
 
   _handleFieldClick = (field) => () => {
-    if (field.man && field.man.type !== this.state.lastType) {
-      this._getPossibleMoves(field);
+    const { moveable, stone } = field;
+
+    this._selectedField = { ...field };
+    this._clearHighlight();
+
+    if (stone && stone.type !== this.state.lastType) {
+      this._handleMovesHighlight();
     }
-    else if (field.moveable) {
-      this._moveToField(field);
+    else if (moveable) {
+      this._handleMovement();
     }
   };
 
-  _getPossibleMoves = (field, jumpsOnly) => {
-    const fields = this.state.fields.map((item) => {
-      item.moveable = false;
-      return item;
-    });
+  _handleMovesHighlight () {
+    this._highlightMoves(this._highlightInDirection);
 
     this.setState({
-      fields: this._traversFieldsFromField(fields, field, jumpsOnly),
-      chosenField: field,
+      fields: this._newFields,
+      selectedField: this._selectedField,
     });
-  };
+  }
 
-  _getNextField = (direction, fields, { row: fieldRow, col: fieldCol }) => {
-    switch (direction) {
-      case 'upLeft':
-        return fields.find((field) => (
-          field.col === fieldCol - 1 &&
-          field.row === fieldRow - 1
-        ));
+  _handleMovement () {
+    const { stone } = this.state.selectedField;
 
-      case 'upRight':
-        return fields.find((field) => (
-          field.col === fieldCol + 1 &&
-          field.row === fieldRow - 1
-        ));
+    this._moveToField();
 
-      case 'downLeft':
-        return fields.find((field) => (
-          field.col === fieldCol - 1 &&
-          field.row === fieldRow + 1
-        ));
-
-      case 'downRight':
-        return fields.find((field) => (
-          field.col === fieldCol + 1 &&
-          field.row === fieldRow + 1
-        ));
-
-      default:
-        break;
+    if (this._isStoneEaten()) {
+      this._highlightMoves(this._highlightOnlyJumpsInDirection);
     }
-  };
 
-  _traversFieldsFromField (fields, currentField, jumpsOnly) {
-    const { row, col, man: { type, crowned } } = currentField;
+    this.setState({
+      fields: this._newFields,
+      lastType: stone.type,
+      selectedField: this._selectedField,
+    });
+  }
 
-    const setMoveable = (direction) => {
-      let field = this._getNextField(direction, fields, currentField);
+  _clearHighlight () {
+    this._newFields = [ ...this.state.fields ];
+    this._newFields.map((field) => field.moveable = false);
+  }
 
-      if (field) {
-        do {
-          if (field.man && field.man.type !== type) {
-            field = this._getNextField(direction, fields, field);
-
-            if (field && !field.man) {
-              fields[field.key].moveable = true;
-              fields[field.key].direction = direction;
-            }
-
-            return;
-          }
-
-          if (jumpsOnly || field.man) {
-            return;
-          }
-
-          if (field && !field.man) {
-            fields[field.key].moveable = true;
-            fields[field.key].direction = direction;
-          }
-
-          field = this._getNextField(direction, fields, fields[field.key]);
-        } while (crowned && field);
-      }
-    };
+  _highlightMoves (highlightInDirection) {
+    const { row, col, stone: { type, crowned } } = this._selectedField;
 
     if (type === 'dark' || crowned) {
       if (col - 1 >= 0 && row + 1 < ROWS) {
-        setMoveable('downLeft');
+        highlightInDirection('downLeft');
       }
       if (col + 1 < COLS && row + 1 < ROWS) {
-        setMoveable('downRight');
+        highlightInDirection('downRight');
       }
     }
 
     if (type === 'light' || crowned) {
       if (col - 1 >= 0 && row - 1 >= 0) {
-        setMoveable('upLeft');
+        highlightInDirection('upLeft');
       }
 
       if (col + 1 < COLS && row - 1 >= 0) {
-        setMoveable('upRight');
+        highlightInDirection('upRight');
       }
     }
-
-    return fields;
   }
 
-  _clearJumpedMan = (field, toField, direction) => {
-    const { fields } = this.state;
+  _highlightOnlyJumpsInDirection = (direction) => {
+    const { type } = this._selectedField.stone;
+    let field = this._nextField(direction, this._selectedField);
+
+    if (field && field.stone && field.stone.type !== type) {
+      field = this._nextField(direction, field);
+
+      this._setHighlight(field, direction);
+    }
+  };
+
+  _highlightInDirection = (direction) => {
+    const { type, crowned } = this._selectedField.stone;
+    let field = this._nextField(direction, this._selectedField);
 
     do {
-      field = this._getNextField(direction, fields, field);
-    } while (!field.man && field.row !== toField.row && field.col !== toField.col);
+      if (field && field.stone && field.stone.type !== type) {
+        field = this._nextField(direction, field);
 
-    if (field.row !== toField.row && field.col !== toField.col) {
-      return field;
-    }
+        this._setHighlight(field, direction);
 
-    return null;
-  };
-
-  _moveToField = ({ row: fieldRow, col: fieldCol, direction }) => {
-    const { row, col, man } = this.state.chosenField;
-    const toField = this.state.fields.find(
-      (item) => item.row === fieldRow && item.col === fieldCol,
-    );
-
-    const jumpedField = this._clearJumpedMan(
-      this.state.chosenField,
-      toField,
-      direction,
-    );
-
-    let fields = this.state.fields.map((item) => {
-      item.moveable = false;
-      return item;
-    });
-
-    fields = this.state.fields.map((item) => {
-      if (item.row === fieldRow && item.col === fieldCol) {
-        item.man = man;
-
-        if (fieldRow === ROWS - 1 || fieldRow === 0) {
-          item.man.crowned = true;
-        }
+        return;
       }
 
-      if ((item.row === row && item.col === col) || item === jumpedField) {
-        item.man = null;
-      }
+      this._setHighlight(field, direction);
 
-      return item;
-    });
-
-    if (jumpedField) {
-      this.setState({
-        fields,
-        lastType: man.type,
-      }, this._getPossibleMoves(toField, true));
-    }
-    else {
-      this.setState({
-        fields,
-        lastType: man.type,
-      });
-    }
+      field = this._nextField(direction, this._newFields[field.key]);
+    } while (crowned && field);
   };
+
+  _setHighlight (field, direction) {
+    if (field && !field.stone) {
+      this._newFields[field.key].moveable = true;
+      this._newFields[field.key].direction = direction;
+    }
+  }
+
+  _nextField (direction, currentField) {
+    switch (direction) {
+      case 'upLeft':
+        return this._newFields.find((field) => (
+          field.col === currentField.col - 1 &&
+          field.row === currentField.row - 1
+        ));
+
+      case 'upRight':
+        return this._newFields.find((field) => (
+          field.col === currentField.col + 1 &&
+          field.row === currentField.row - 1
+        ));
+
+      case 'downLeft':
+        return this._newFields.find((field) => (
+          field.col === currentField.col - 1 &&
+          field.row === currentField.row + 1
+        ));
+
+      case 'downRight':
+        return this._newFields.find((field) => (
+          field.col === currentField.col + 1 &&
+          field.row === currentField.row + 1
+        ));
+    }
+  }
+
+  _isStoneEaten () {
+    const { key, direction } = this._selectedField;
+    let field = { ...this.state.selectedField };
+    let isEaten = false;
+
+    while (field && field.key !== key) {
+      field = this._nextField(direction, field);
+
+      if (field && field.key !== key && field.stone) {
+        this._newFields[field.key].stone = null;
+
+        isEaten = true;
+      }
+    }
+
+    return isEaten;
+  }
+
+  _moveToField () {
+    const { selectedField } = this.state;
+    const { key, row } = this._selectedField;
+
+    this._newFields[key].stone = { ...selectedField.stone };
+    this._selectedField.stone = { ...selectedField.stone };
+    this._newFields[selectedField.key].stone = null;
+
+    if (row === ROWS - 1 || row === 0) {
+      this._newFields[key].stone.crowned = true;
+    }
+  }
 }

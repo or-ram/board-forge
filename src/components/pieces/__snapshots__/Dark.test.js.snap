@@ -2,7 +2,7 @@
 
 exports[`Dark Test Correctly rendered 1`] = `
 <div
-  className="man"
+  className="stone"
 >
   <svg
     height={70}

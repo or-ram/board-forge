@@ -34,7 +34,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -83,7 +83,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -132,7 +132,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -181,7 +181,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -218,7 +218,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -267,7 +267,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -316,7 +316,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -365,7 +365,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -426,7 +426,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -475,7 +475,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -524,7 +524,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -573,7 +573,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -802,7 +802,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -859,7 +859,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -916,7 +916,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -973,7 +973,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -1042,7 +1042,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -1099,7 +1099,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -1156,7 +1156,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -1213,7 +1213,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -1258,7 +1258,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -1315,7 +1315,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -1372,7 +1372,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -1429,7 +1429,7 @@ exports[`Board Test Shallow render 1`] = `
           width={70}
         >
           <div
-            className="man"
+            className="stone"
           >
             <svg
               height={70}
@@ -1480,7 +1480,7 @@ exports[`Board Test crowning 1`] = `
   width={70}
 >
   <div
-    className="man"
+    className="stone"
   >
     <svg
       height={70}

@@ -35,8 +35,4 @@ export default class Field extends Component {
       </div>
     );
   }
-
-  _colorClass () {
-    return `field-${Field.isFieldDark(this.props) ? 'dark' : 'light'}`;
-  }
 }

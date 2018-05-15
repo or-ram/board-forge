@@ -1,18 +1,16 @@
 {
-  "name": "board-forge",
-  "version": "0.1.0",
-  "description": "Board Game Framework",
+  "name": "dama",
+  "version": "1.0.0",
+  "description": "Dama game application",
   "main": "src/temp/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "NODE_ENV=\"development\" electron .",
     "dev": "webpack --watch",
-    "prestart": "webpack",
     "test": "jest --watch",
-    "dist": "webpack && electron-builder .",
-    "dist:dir": "npm run dist --dir -c.compression=store -c.mac.identity=null"
+    "build": "webpack && electron-builder ."
   },
   "keywords": [
-    "board-forge"
+    "dama"
   ],
   "author": "Roman Ondraszek",
   "license": "ISC",
@@ -73,12 +71,13 @@
     "setupFiles": [
       "./src/jestSetup.js"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/.*\\.e2e\\.(test|spec).*"
-    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ]
+  },
+  "build": {
+    "productName": "Dáma",
+    "compression": "store",
+    "mac": { "identity": null }
   }
 }

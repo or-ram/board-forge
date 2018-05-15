@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 
-let win;
+let win = null;
 
 function createWindow () {
   win = new BrowserWindow({
@@ -20,15 +20,17 @@ function createWindow () {
     win = null;
   });
 
-  const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
+  if (process.env.NODE_ENV === 'development') {
+    const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
-  installExtension(REACT_DEVELOPER_TOOLS)
-    .then((name) => {
-      console.log(`Added Extension:  ${name}`); // eslint-disable-line no-console
-    })
-    .catch((err) => {
-      console.log('An error occurred: ', err); // eslint-disable-line no-console
-    });
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then((name) => {
+        console.log(`Added Extension:  ${name}`); // eslint-disable-line no-console
+      })
+      .catch((err) => {
+        console.log('An error occurred: ', err); // eslint-disable-line no-console
+      });
+  }
 }
 
 app.on('ready', createWindow);
